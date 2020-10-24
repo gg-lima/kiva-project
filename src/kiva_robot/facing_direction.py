@@ -26,5 +26,5 @@ class FacingDirection(Enum):
     # Getters
 
     @property
-    def phi(self) -> None:
+    def phi(self) -> int:
         return self.__phi

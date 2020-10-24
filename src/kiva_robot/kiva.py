@@ -49,27 +49,27 @@ class Kiva():
     # Getters
 
     @property
-    def id(self) -> None:
+    def id(self) -> str:
         return self.__id
 
     @property
-    def position(self) -> None:
+    def position(self) -> tuple:
         return self.__position
 
     @property
-    def facing_direction(self) -> None:
+    def facing_direction(self) -> 'FacingDirection':
         return self.__facing_direction
 
     @property
-    def carrying_pod(self) -> None:
+    def carrying_pod(self) -> bool:
         return self.__carrying_pod
 
     @property
-    def successfully_dropped(self) -> None:
+    def successfully_dropped(self) -> bool:
         return self.__successfully_dropped
 
     @property
-    def motor_lifetime(self) -> None:
+    def motor_lifetime(self) -> int:
         return self.__motor_lifetime
 
     # Setters

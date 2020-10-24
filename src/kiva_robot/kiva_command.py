@@ -179,9 +179,9 @@ class Commands(Enum):
         self.__command = command
 
     @property
-    def code(self) -> None:
+    def code(self) -> str:
         return self.__code
 
     @property
-    def command(self) -> None:
+    def command(self) -> 'KivaCommandStrategy':
         return self.__command
