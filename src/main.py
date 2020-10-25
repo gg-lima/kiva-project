@@ -43,7 +43,8 @@ if __name__ == '__main__':
     kiva.get_info()
 
     # Init KivaController
-    kiva_controller = KivaController(kiva)
+    terrain = "[TODO]"
+    kiva_controller = KivaController(kiva, terrain)
 
     # Taking Pod
     print("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓")
