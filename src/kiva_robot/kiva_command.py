@@ -31,20 +31,24 @@ Kiva Robot's moving constraints:
 '''
 from enum import Enum
 from abc import ABCMeta, abstractmethod
-from math import radians, sin, cos
+from math import (
+    radians,
+    sin,
+    cos
+)
 from kiva_robot.facing_direction import FacingDirection
 
 class KivaCommandStrategy(metaclass=ABCMeta):
     ''' The interface for all Kiva's commands.
     '''
     @abstractmethod
-    def execute(self, kiva: 'Kiva') -> None:
+    def execute(self, controller: 'KivaController') -> None:
         raise NotImplementedError
 
 class ForwardStrategy(KivaCommandStrategy):
     ''' Concrete Strategy. Implements Forward command.
     '''
-    def execute(self, kiva: 'Kiva') -> None:
+    def execute(self, controller: 'KivaController') -> None:
         ''' Implements move one step forward.
         '''
         # print("Doing: Forward...")
@@ -59,8 +63,8 @@ class ForwardStrategy(KivaCommandStrategy):
         # z = int(r * cos_teta)
 
         # Coordinates xy and azimuth
-        x, y = kiva.position
-        phi = kiva.facing_direction.phi
+        x, y = controller.kiva.position
+        phi = controller.kiva.facing_direction.phi
 
         # Sine/Cosine
         sin_phi = sin(radians(phi))
@@ -90,10 +94,10 @@ class ForwardStrategy(KivaCommandStrategy):
         # if next_position is pod_zone and carrying_pod is true: raise Exception
 
         # Updating position
-        kiva.position = (x, y)
+        controller.kiva.position = (x, y)
 
         # Incrementing motor_lifetime
-        kiva.motor_lifetime += int(1e3)
+        controller.kiva.motor_lifetime += int(1e3)
 
 class TurnStrategy(KivaCommandStrategy):
     ''' Concrete Strategy. Implements Turn command.
@@ -101,14 +105,14 @@ class TurnStrategy(KivaCommandStrategy):
     def __init__(self, angle: int) -> None:
         self.__angle = angle
 
-    def execute(self, kiva: 'Kiva') -> None:
+    def execute(self, controller: 'KivaController') -> None:
         ''' Implements turn orthognally.
         '''
         # print("Doing: Turning...")
         
         if (self.__angle % 90 == 0):
             # azimuthal angle
-            phi = kiva.facing_direction.phi
+            phi = controller.kiva.facing_direction.phi
 
             # Moving facing_direction
             phi += self.__angle
@@ -116,17 +120,17 @@ class TurnStrategy(KivaCommandStrategy):
             # Updating facing_direction
             # Keeping value between 0 and 360
             phi %= 360
-            kiva.facing_direction = FacingDirection(phi)
+            controller.kiva.facing_direction = FacingDirection(phi)
 
             # Incrementing motor_lifetime
-            kiva.motor_lifetime += int(1e3)
+            controller.kiva.motor_lifetime += int(1e3)
         else:
             raise Exception("Kiva Robots can only turn orthogonally!")
 
 class TakeStrategy(KivaCommandStrategy):
     ''' Concrete Strategy. Implements Take command.
     '''
-    def execute(self, kiva: 'Kiva') -> None:
+    def execute(self, controller: 'KivaController') -> None:
         ''' Implements take pod.
         '''
         # print("Doing: Take...")
@@ -138,16 +142,16 @@ class TakeStrategy(KivaCommandStrategy):
         # if not pod_zone: raise Exception
 
         # Take
-        kiva.carrying_pod = True
-        kiva.successfully_dropped = False
+        controller.kiva.carrying_pod = True
+        controller.kiva.successfully_dropped = False
 
         # Incrementing motor_lifetime
-        kiva.motor_lifetime += int(1e3)
+        controller.kiva.motor_lifetime += int(1e3)
 
 class DropStrategy(KivaCommandStrategy):
     ''' Concrete Strategy. Implements Drop command.
     '''
-    def execute(self, kiva: 'Kiva') -> None:
+    def execute(self, controller: 'KivaController') -> None:
         ''' Implements drop pod.
         '''
         # print("Doing: Drop...")
@@ -159,11 +163,11 @@ class DropStrategy(KivaCommandStrategy):
         # if not drop_zone: raise Exception
 
         # Drop
-        kiva.successfully_dropped = True
-        kiva.carrying_pod = False
+        controller.kiva.successfully_dropped = True
+        controller.kiva.carrying_pod = False
 
         # Incrementing motor_lifetime
-        kiva.motor_lifetime += int(1e3)
+        controller.kiva.motor_lifetime += int(1e3)
 
 class Commands(Enum):
     ''' Collection of Kiva Robot's commands.
@@ -178,6 +182,8 @@ class Commands(Enum):
         self.__code = code
         self.__command = command
 
+    # Getters
+    
     @property
     def code(self) -> str:
         return self.__code
