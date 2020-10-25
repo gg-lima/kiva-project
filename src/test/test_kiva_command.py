@@ -37,7 +37,7 @@ class TestKivaCommand(unittest.TestCase):
         # Assertions
         self.assertRaises(Exception,
                           turning.execute,
-                          {'kiva': kiva})
+                          {"kiva": kiva})
 
 if __name__ == '__main__':
     unittest.main()

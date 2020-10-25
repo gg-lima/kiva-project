@@ -31,7 +31,8 @@ class TestKivaController(unittest.TestCase):
         )
 
         # Init KivaController
-        kiva_controller = KivaController(kiva)
+        terrain = "Terrain object"
+        kiva_controller = KivaController(kiva, terrain)
 
         # Move
         kiva_controller.update(Commands.FORWARD)
@@ -58,7 +59,8 @@ class TestKivaController(unittest.TestCase):
         )
 
         # Init KivaController
-        kiva_controller = KivaController(kiva)
+        terrain = "Terrain object"
+        kiva_controller = KivaController(kiva, terrain)
 
         # Move
         kiva_controller.update(Commands.FORWARD)
@@ -85,7 +87,8 @@ class TestKivaController(unittest.TestCase):
         )
 
         # Init KivaController
-        kiva_controller = KivaController(kiva)
+        terrain = "Terrain object"
+        kiva_controller = KivaController(kiva, terrain)
 
         # Move
         kiva_controller.update(Commands.FORWARD)
@@ -112,7 +115,8 @@ class TestKivaController(unittest.TestCase):
         )
 
         # Init KivaController
-        kiva_controller = KivaController(kiva)
+        terrain = "Terrain object"
+        kiva_controller = KivaController(kiva, terrain)
 
         # Move
         kiva_controller.update(Commands.FORWARD)
@@ -139,7 +143,8 @@ class TestKivaController(unittest.TestCase):
         )
 
         # Init KivaController
-        kiva_controller = KivaController(kiva)
+        terrain = "Terrain object"
+        kiva_controller = KivaController(kiva, terrain)
 
         # Turn left
         kiva_controller.update(Commands.TURN_LEFT)
@@ -166,7 +171,8 @@ class TestKivaController(unittest.TestCase):
         )
 
         # Init KivaController
-        kiva_controller = KivaController(kiva)
+        terrain = "Terrain object"
+        kiva_controller = KivaController(kiva, terrain)
 
         # Turn left
         kiva_controller.update(Commands.TURN_LEFT)
@@ -193,7 +199,8 @@ class TestKivaController(unittest.TestCase):
         )
 
         # Init KivaController
-        kiva_controller = KivaController(kiva)
+        terrain = "Terrain object"
+        kiva_controller = KivaController(kiva, terrain)
 
         # Turn left
         kiva_controller.update(Commands.TURN_LEFT)
@@ -220,7 +227,8 @@ class TestKivaController(unittest.TestCase):
         )
 
         # Init KivaController
-        kiva_controller = KivaController(kiva)
+        terrain = "Terrain object"
+        kiva_controller = KivaController(kiva, terrain)
 
         # Turn left
         kiva_controller.update(Commands.TURN_LEFT)
@@ -247,7 +255,8 @@ class TestKivaController(unittest.TestCase):
         )
 
         # Init KivaController
-        kiva_controller = KivaController(kiva)
+        terrain = "Terrain object"
+        kiva_controller = KivaController(kiva, terrain)
 
         # Turn right
         kiva_controller.update(Commands.TURN_RIGHT)
@@ -274,7 +283,8 @@ class TestKivaController(unittest.TestCase):
         )
 
         # Init KivaController
-        kiva_controller = KivaController(kiva)
+        terrain = "Terrain object"
+        kiva_controller = KivaController(kiva, terrain)
 
         # Turn right
         kiva_controller.update(Commands.TURN_RIGHT)
@@ -301,7 +311,8 @@ class TestKivaController(unittest.TestCase):
         )
 
         # Init KivaController
-        kiva_controller = KivaController(kiva)
+        terrain = "Terrain object"
+        kiva_controller = KivaController(kiva, terrain)
 
         # Turn right
         kiva_controller.update(Commands.TURN_RIGHT)
@@ -328,7 +339,8 @@ class TestKivaController(unittest.TestCase):
         )
 
         # Init KivaController
-        kiva_controller = KivaController(kiva)
+        terrain = "Terrain object"
+        kiva_controller = KivaController(kiva, terrain)
 
         # Turn right
         kiva_controller.update(Commands.TURN_RIGHT)
