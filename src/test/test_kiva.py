@@ -1,16 +1,15 @@
 '''
 '''
-import unittest
-import kiva_robot
+from unittest import TestCase
+from unittest.mock import Mock
 from kiva_robot.kiva import Kiva
-from kiva_robot.kiva_controller import FacingDirection
 
-class TestKiva(unittest.TestCase):
+class TestKiva(TestCase):
     '''
     '''
     kiva_id = "test_id"
     position = (1, 1)
-    facing_direction = FacingDirection.RIGHT
+    facing_direction = Mock()
     carrying_pod = True
     successfully_dropped = True
     motor_lifetime = 5e3

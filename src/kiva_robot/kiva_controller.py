@@ -5,11 +5,12 @@ import math
 from kiva_robot.kiva import Kiva
 from kiva_robot.facing_direction import FacingDirection
 from kiva_robot.kiva_command import Commands
+from kiva_robot.terrain import TerrainMap
 
 class KivaController():
-    ''' This interface implements Kiva Robot's controller
+    ''' This interface implements Kiva Robot's controller.
     '''
-    def __init__(self, kiva: 'Kiva', terrain: 'str') -> None:
+    def __init__(self, kiva: 'Kiva', terrain: 'TerrainMap') -> None:
         self.__kiva = kiva
         self.__terrain = terrain
 
@@ -20,7 +21,7 @@ class KivaController():
         return self.__kiva
 
     @property
-    def terrain(self) -> 'str':
+    def terrain(self) -> 'TerrainMap':
         return self.__terrain
 
     # Methods
@@ -28,5 +29,5 @@ class KivaController():
     def update(self, input: 'Commands') -> None:
         ''' Execute Kiva Robot's command.
         '''
-        # print(f"Updating kiva: {input.code}")
+        # Using Strategy Pattern
         input.command.execute(self)

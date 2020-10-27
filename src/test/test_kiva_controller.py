@@ -1,13 +1,14 @@
 '''
 '''
-import unittest
+from unittest import TestCase
 import kiva_robot
 from kiva_robot.kiva import Kiva
 from kiva_robot.kiva_controller import FacingDirection
 from kiva_robot.kiva_controller import KivaController
 from kiva_robot.kiva_command import Commands
+from kiva_robot.terrain import TerrainMap
 
-class TestKivaController(unittest.TestCase):
+class TestKivaController(TestCase):
     '''
     '''
     kiva_id = "test_id"
@@ -23,7 +24,7 @@ class TestKivaController(unittest.TestCase):
         # Init Kiva
         kiva = Kiva(
             self.kiva_id,
-            self.position,
+            (1, 2),
             FacingDirection.UP,
             self.carrying_pod,
             self.successfully_dropped,
@@ -31,7 +32,7 @@ class TestKivaController(unittest.TestCase):
         )
 
         # Init KivaController
-        terrain = "Terrain object"
+        terrain = TerrainMap()
         kiva_controller = KivaController(kiva, terrain)
 
         # Move
@@ -39,7 +40,7 @@ class TestKivaController(unittest.TestCase):
 
         # Assertions
         self.assertEqual(kiva.id, self.kiva_id)
-        self.assertEqual(kiva.position, (1, 0))
+        self.assertEqual(kiva.position, (1, 1))
         self.assertEqual(kiva.facing_direction, FacingDirection.UP)
         self.assertEqual(kiva.carrying_pod, self.carrying_pod)
         self.assertEqual(kiva.successfully_dropped, self.successfully_dropped)
@@ -51,7 +52,7 @@ class TestKivaController(unittest.TestCase):
         # Init Kiva
         kiva = Kiva(
             self.kiva_id,
-            self.position,
+            (2, 1),
             FacingDirection.LEFT,
             self.carrying_pod,
             self.successfully_dropped,
@@ -59,7 +60,7 @@ class TestKivaController(unittest.TestCase):
         )
 
         # Init KivaController
-        terrain = "Terrain object"
+        terrain = TerrainMap()
         kiva_controller = KivaController(kiva, terrain)
 
         # Move
@@ -67,7 +68,7 @@ class TestKivaController(unittest.TestCase):
 
         # Assertions
         self.assertEqual(kiva.id, self.kiva_id)
-        self.assertEqual(kiva.position, (0, 1))
+        self.assertEqual(kiva.position, (1, 1))
         self.assertEqual(kiva.facing_direction, FacingDirection.LEFT)
         self.assertEqual(kiva.carrying_pod, self.carrying_pod)
         self.assertEqual(kiva.successfully_dropped, self.successfully_dropped)
@@ -79,7 +80,7 @@ class TestKivaController(unittest.TestCase):
         # Init Kiva
         kiva = Kiva(
             self.kiva_id,
-            self.position,
+            (1, 1),
             FacingDirection.DOWN,
             self.carrying_pod,
             self.successfully_dropped,
@@ -87,7 +88,7 @@ class TestKivaController(unittest.TestCase):
         )
 
         # Init KivaController
-        terrain = "Terrain object"
+        terrain = TerrainMap()
         kiva_controller = KivaController(kiva, terrain)
 
         # Move
@@ -107,7 +108,7 @@ class TestKivaController(unittest.TestCase):
         # Init Kiva
         kiva = Kiva(
             self.kiva_id,
-            self.position,
+            (1, 1),
             FacingDirection.RIGHT,
             self.carrying_pod,
             self.successfully_dropped,
@@ -115,7 +116,7 @@ class TestKivaController(unittest.TestCase):
         )
 
         # Init KivaController
-        terrain = "Terrain object"
+        terrain = TerrainMap()
         kiva_controller = KivaController(kiva, terrain)
 
         # Move
@@ -143,7 +144,7 @@ class TestKivaController(unittest.TestCase):
         )
 
         # Init KivaController
-        terrain = "Terrain object"
+        terrain = TerrainMap()
         kiva_controller = KivaController(kiva, terrain)
 
         # Turn left
@@ -171,7 +172,7 @@ class TestKivaController(unittest.TestCase):
         )
 
         # Init KivaController
-        terrain = "Terrain object"
+        terrain = TerrainMap()
         kiva_controller = KivaController(kiva, terrain)
 
         # Turn left
@@ -199,7 +200,7 @@ class TestKivaController(unittest.TestCase):
         )
 
         # Init KivaController
-        terrain = "Terrain object"
+        terrain = TerrainMap()
         kiva_controller = KivaController(kiva, terrain)
 
         # Turn left
@@ -227,7 +228,7 @@ class TestKivaController(unittest.TestCase):
         )
 
         # Init KivaController
-        terrain = "Terrain object"
+        terrain = TerrainMap()
         kiva_controller = KivaController(kiva, terrain)
 
         # Turn left
@@ -255,7 +256,7 @@ class TestKivaController(unittest.TestCase):
         )
 
         # Init KivaController
-        terrain = "Terrain object"
+        terrain = TerrainMap()
         kiva_controller = KivaController(kiva, terrain)
 
         # Turn right
@@ -283,7 +284,7 @@ class TestKivaController(unittest.TestCase):
         )
 
         # Init KivaController
-        terrain = "Terrain object"
+        terrain = TerrainMap()
         kiva_controller = KivaController(kiva, terrain)
 
         # Turn right
@@ -311,7 +312,7 @@ class TestKivaController(unittest.TestCase):
         )
 
         # Init KivaController
-        terrain = "Terrain object"
+        terrain = TerrainMap()
         kiva_controller = KivaController(kiva, terrain)
 
         # Turn right
@@ -339,7 +340,7 @@ class TestKivaController(unittest.TestCase):
         )
 
         # Init KivaController
-        terrain = "Terrain object"
+        terrain = TerrainMap()
         kiva_controller = KivaController(kiva, terrain)
 
         # Turn right

@@ -5,6 +5,7 @@ from kiva_robot.kiva import Kiva
 from kiva_robot.kiva_controller import FacingDirection
 from kiva_robot.kiva_controller import KivaController
 from kiva_robot.kiva_command import Commands
+from kiva_robot.terrain import TerrainMap
 
 if __name__ == '__main__':
     print()
@@ -13,37 +14,45 @@ if __name__ == '__main__':
     print("┃ TEST: KIVA ROBOT                                  ┃")
     print("┃                                                   ┃")
     print("┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫")
-    print("┃           ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┓           ┃")
-    print("┃           ┃       WAREHOUSE MAP       ┃           ┃")
-    print("┃           ┣━━━━━━━━━━━━━━━━━━━━━━━━━━━┫           ┃")
-    print("┃           ┃ ┏━━━┳━━━┳━━━┳━━━┳━━━┳━━━┓ ┃           ┃")
-    print("┃           ┃ ┃ K ┃   ┃   ┃   ┃   ┃   ┃ ┃           ┃")
-    print("┃           ┃ ┣━━━╋━━━╋━━━╋━━━╋━━━╋━━━┫ ┃           ┃")
-    print("┃           ┃ ┃   ┃   ┃ █ ┃ T ┃ █ ┃   ┃ ┃           ┃")
-    print("┃           ┃ ┣━━━╋━━━╋━━━╋━━━╋━━━╋━━━┫ ┃           ┃")
-    print("┃           ┃ ┃   ┃   ┃ █ ┃ █ ┃ █ ┃   ┃ ┃           ┃")
-    print("┃           ┃ ┣━━━╋━━━╋━━━╋━━━╋━━━╋━━━┫ ┃           ┃")
-    print("┃           ┃ ┃   ┃ D ┃   ┃   ┃   ┃   ┃ ┃           ┃")
-    print("┃           ┃ ┗━━━┻━━━┻━━━┻━━━┻━━━┻━━━┛ ┃           ┃")
-    print("┃           ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━┛           ┃")
+    print("┃       ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓        ┃")
+    print("┃       ┃           WAREHOUSE MAP          ┃        ┃")
+    print("┃       ┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫        ┃")
+    print("┃       ┃                                  ┃        ┃")
+    print("┃       ┃       |------------------|       ┃        ┃")
+    print("┃       ┃       |                  |       ┃        ┃")
+    print("┃       ┃       |  P*  *   **   D|-|       ┃        ┃")
+    print("┃       ┃       |  *   **  P*    | |       ┃        ┃")
+    print("┃       ┃       |  **   *  **    |-|       ┃        ┃")
+    print("┃       ┃       |                  |       ┃        ┃")
+    print("┃       ┃       |  **  **  **   D|-|       ┃        ┃")
+    print("┃       ┃       |  **  K   P     | |       ┃        ┃")
+    print("┃       ┃       |   *  **  **    |-|       ┃        ┃")
+    print("┃       ┃       |                  |       ┃        ┃")
+    print("┃       ┃       |  *P  P*  **   D|-|       ┃        ┃")
+    print("┃       ┃       |  **  **  P*    | |       ┃        ┃")
+    print("┃       ┃       |  P*  *   **    |-|       ┃        ┃")
+    print("┃       ┃       |                  |       ┃        ┃")
+    print("┃       ┃       |------------------|       ┃        ┃")
+    print("┃       ┃                                  ┃        ┃")
+    print("┃       ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛        ┃")
     print("┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫")
     print("┃ Enter the Kiva Commands:                          ┃")
     print("┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫")
-    print("┃ R F F F R F T L L F L F F L F F F D               ┃")
+    print("┃ R F F F F T F F L F R F F L F F F F R F D         ┃")
     print("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛")
     print()
     print("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓")
     print("┃ Init Kiva Robot                                   ┃")
     print("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛")
-    initial_position = (0, 0)
+    initial_position = (7, 7)
     initial_direction_facing = FacingDirection.UP
-    kiva = Kiva("kTEST", initial_position, initial_direction_facing)
+    kiva = Kiva("K01W01", initial_position, initial_direction_facing)
 
     # Kiva State
     kiva.get_info()
 
     # Init KivaController
-    terrain = "[TODO]"
+    terrain = TerrainMap()
     kiva_controller = KivaController(kiva, terrain)
 
     # Taking Pod
@@ -54,7 +63,6 @@ if __name__ == '__main__':
     kiva_controller.update(Commands.FORWARD)
     kiva_controller.update(Commands.FORWARD)
     kiva_controller.update(Commands.FORWARD)
-    kiva_controller.update(Commands.TURN_RIGHT)
     kiva_controller.update(Commands.FORWARD)
     kiva_controller.update(Commands.TAKE)
 
@@ -65,15 +73,19 @@ if __name__ == '__main__':
     print("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓")
     print("┃ Dropping POD                                      ┃")
     print("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛")
-    kiva_controller.update(Commands.TURN_LEFT)
-    kiva_controller.update(Commands.TURN_LEFT)
-    kiva_controller.update(Commands.FORWARD)
-    kiva_controller.update(Commands.TURN_LEFT)
     kiva_controller.update(Commands.FORWARD)
     kiva_controller.update(Commands.FORWARD)
     kiva_controller.update(Commands.TURN_LEFT)
     kiva_controller.update(Commands.FORWARD)
+    kiva_controller.update(Commands.TURN_RIGHT)
     kiva_controller.update(Commands.FORWARD)
+    kiva_controller.update(Commands.FORWARD)
+    kiva_controller.update(Commands.TURN_LEFT)
+    kiva_controller.update(Commands.FORWARD)
+    kiva_controller.update(Commands.FORWARD)
+    kiva_controller.update(Commands.FORWARD)
+    kiva_controller.update(Commands.FORWARD)
+    kiva_controller.update(Commands.TURN_RIGHT)
     kiva_controller.update(Commands.FORWARD)
     kiva_controller.update(Commands.DROP)
     
