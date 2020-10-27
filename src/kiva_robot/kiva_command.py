@@ -37,7 +37,9 @@ from math import (
     cos
 )
 from kiva_robot.facing_direction import FacingDirection
+from kiva_robot.terrain import TerrainObject
 
+# Using Strategy Pattern
 class KivaCommandStrategy(metaclass=ABCMeta):
     ''' The interface for all Kiva's commands.
     '''
@@ -85,13 +87,17 @@ class ForwardStrategy(KivaCommandStrategy):
         y += -int(cos_phi)
 
         # Check Position
-        # [TODO] constraint: not moving out of grid limits;
-        # [TODO] constraint: not moving into obstacles;
-        # [TODO] constraint: risk collision: not moving into next Pod location when carrying Pod;
+        # [TODO] test constraint: not moving out of grid limits;
+        # [TODO] test constraint: not moving into obstacles;
+        # [TODO] test constraint: risk collision: not moving into next Pod location when carrying Pod;
 
-        # if next_position is out_bound: raise Exception
-        # if next_position is obstacles: raise Exception
-        # if next_position is pod_zone and carrying_pod is true: raise Exception
+        # Rule Dispatcher
+        dispatcher = RuleDispatcher([
+            map_bound_rule(x, y, controller),
+            obstacle_rule(x, y, controller),
+            collision_rule(x, y, controller),
+        ])
+        dispatcher.handle_rule()
 
         # Updating position
         controller.kiva.position = (x, y)
@@ -125,7 +131,7 @@ class TurnStrategy(KivaCommandStrategy):
             # Incrementing motor_lifetime
             controller.kiva.motor_lifetime += int(1e3)
         else:
-            raise Exception("Kiva Robots can only turn orthogonally!")
+            raise SystemExit("Kiva Robots can only turn orthogonally!")
 
 class TakeStrategy(KivaCommandStrategy):
     ''' Concrete Strategy. Implements Take command.
@@ -135,11 +141,15 @@ class TakeStrategy(KivaCommandStrategy):
         '''
         # print("Doing: Take...")
         
-        # [TODO] constraint: not take when out of take zone;
-        # [TODO] constraint: not take when carrying Pod;
+        # [TODO] test constraint: not take when out of take zone;
+        # [TODO] test constraint: not take when carrying Pod;
 
-        # if take_when_carrying_pod: raise Exception
-        # if not pod_zone: raise Exception
+        # Rule Dispatcher
+        dispatcher = RuleDispatcher([
+            take_when_carrying_pod_rule(controller),
+            take_zone_rule(controller),
+        ])
+        dispatcher.handle_rule()
 
         # Take
         controller.kiva.carrying_pod = True
@@ -156,11 +166,15 @@ class DropStrategy(KivaCommandStrategy):
         '''
         # print("Doing: Drop...")
         
-        # [TODO] constraint: not drop when out of drop zone;
-        # [TODO] constraint: not dorp when not carrying Pod.
+        # [TODO] test constraint: not drop when out of drop zone;
+        # [TODO] test constraint: not dorp when not carrying Pod.
 
-        # if drop_when_not_carryng_pod: raise Exception
-        # if not drop_zone: raise Exception
+        # Rule Dispatcher
+        dispatcher = RuleDispatcher([
+            drop_when_not_carryng_pod_rule(controller),
+            drop_zone_rule(controller),
+        ])
+        dispatcher.handle_rule()
 
         # Drop
         controller.kiva.successfully_dropped = True
@@ -191,3 +205,67 @@ class Commands(Enum):
     @property
     def command(self) -> 'KivaCommandStrategy':
         return self.__command
+
+# Chain of Responsability for Moving Constraint
+class RuleDispatcher():
+    ''' [TODO] doc
+    '''
+    def __init__(self, rules: list) -> None:
+        self.__rules = rules
+
+    # Methods
+
+    def handle_rule(self) -> None:
+        for rule in self.__rules: rule
+
+def map_bound_rule(next_x: int, next_y: int, controller: 'KivaController') -> None:
+    ''' [TODO] doc
+    '''
+    if (
+        next_x < 0 or next_x > controller.terrain.x_max or 
+        next_y < 0 or next_y > controller.terrain.y_max
+        ):
+        raise SystemExit(f"Can't FORWARD: location ({next_x}, {next_y}) is out of map boundaries!")
+
+def obstacle_rule(next_x: int, next_y: int, controller: 'KivaController')-> None:
+    ''' [TODO] doc
+    '''
+    terrain_object = controller.terrain.get_object_at(next_x, next_y)
+    if terrain_object == TerrainObject.OBSTACLE:
+        raise SystemExit(f"Can't FORWARD: location ({next_x}, {next_y}) is an OBSTACLE!")
+
+def collision_rule(next_x: int, next_y: int, controller: 'KivaController') -> None:
+    ''' [TODO] doc
+    '''
+    terrain_object = controller.terrain.get_object_at(next_x, next_y)
+    if (
+        controller.kiva.carrying_pod and 
+        terrain_object == TerrainObject.POD
+        ):
+        raise SystemExit(f"Can't FORWARD: location ({next_x}, {next_y}) is a POD and Kiva already carrying a POD, collision risk!")
+
+def take_when_carrying_pod_rule(controller: 'KivaController') -> None:
+    ''' [TODO] doc
+    '''
+    if controller.kiva.carrying_pod:
+        raise SystemExit("Can't TAKE: already carrying a POD!")
+
+def take_zone_rule(controller: 'KivaController') -> None:
+    ''' [TODO] doc
+    '''
+    terrain_object = controller.terrain.get_object_at(controller.kiva.x, controller.kiva.y)
+    if terrain_object != TerrainObject.POD:
+        raise SystemExit(f"Can't TAKE: location {controller.kiva.position} is {terrain_object}, not a POD zone!")
+
+def drop_when_not_carryng_pod_rule(controller: 'KivaController') -> None:
+    ''' [TODO] doc
+    '''
+    if not controller.kiva.carrying_pod:
+        raise SystemExit("Can't DROP: not carrying a POD!")
+
+def drop_zone_rule(controller: 'KivaController') -> None:
+    ''' [TODO] doc
+    '''
+    terrain_object = controller.terrain.get_object_at(controller.kiva.x, controller.kiva.y)
+    if terrain_object != TerrainObject.DROP_ZONE:
+        raise SystemExit(f"Can't DROP: location {controller.kiva.position} is {terrain_object}, not a DROP zone!")
