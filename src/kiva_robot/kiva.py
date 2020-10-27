@@ -72,6 +72,14 @@ class Kiva():
     def motor_lifetime(self) -> int:
         return self.__motor_lifetime
 
+    @property
+    def x(self):
+        return self.__position[0]
+    
+    @property
+    def y(self):
+        return self.__position[1]
+
     # Setters
 
     @position.setter
@@ -97,6 +105,8 @@ class Kiva():
     # Methods
 
     def get_info(self) -> None:
+        ''' [TODO] doc
+        '''
         print( '  "kiva": {')
         print(f'     "id": {self.__id}')
         print(f'     "position": {self.__position}')
